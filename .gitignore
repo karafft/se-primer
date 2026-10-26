@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+.env.local
+cypress/screenshots/
+cypress/downloads/
+eval/results/*.raw.jsonl
+cypress/videos/*
+!cypress/videos/demo.cy.ts.mp4
+.claude/
