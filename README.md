@@ -73,7 +73,7 @@ npm run eval:report
 ## Arkadaş testi
 
 - Oynayan: Volkan (sınıf arkadaşı), AI Studio linkinden, telefonda
-- Süre: **TODO** dk
+- Süre: 1,5 dk (gerçek süre); oyun içinde kesinti 25 dk (sistem 08:25'te ayakta)
 - İlk takıldığı yer: Karar 2 · Test. Sonunda SON A ile bitirdi (08:25).
 - Neden takıldı: 2. karar "Düzeltme hazır" diye başlıyordu; oysa 1. kararda eski sürüme dönmüştü, ortada bir düzeltme yoktu.
 - spec.md'ye eklenen kabul örneği: KÖ-6 (2. karar metni 1. karara göre değişir), Cypress testi `paths.cy.ts`
