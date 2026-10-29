@@ -72,9 +72,9 @@ npm run eval:report
 
 ## Arkadaş testi
 
-- Oynayan: **TODO**
+- Oynayan: Volkan (sınıf arkadaşı), AI Studio linkinden, telefonda
 - Süre: **TODO** dk
-- İlk takıldığı yer: **TODO**
+- İlk takıldığı yer: Karar 2 · Test. Sonunda SON A ile bitirdi (08:25).
 - spec.md'ye eklenen kabul örneği: **TODO (KÖ-6)**
 
 ## Kaynakça
