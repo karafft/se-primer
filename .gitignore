@@ -5,5 +5,4 @@ dist/
 cypress/screenshots/
 cypress/downloads/
 eval/results/*.raw.jsonl
-.claude/
 cypress/videos/
