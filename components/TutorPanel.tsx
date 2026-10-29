@@ -5,7 +5,9 @@ import { askTutor, type Turn } from '../tutor/core.ts';
 import { makeGenerate } from '../tutor/gemini.ts';
 
 export default function TutorPanel({ decision, profile }: { decision: DecisionId; profile: Profile }) {
-  const generate = useMemo(() => makeGenerate(process.env.API_KEY || process.env.GEMINI_API_KEY), []);
+  const online = useMemo(() => makeGenerate(process.env.API_KEY || process.env.GEMINI_API_KEY), []);
+  const [failed, setFailed] = useState(false);
+  const generate = failed ? null : online;
   const [open, setOpen] = useState(false);
   const [history, setHistory] = useState<Turn[]>([]);
   const [draft, setDraft] = useState('');
@@ -20,8 +22,12 @@ export default function TutorPanel({ decision, profile }: { decision: DecisionId
     try {
       const reply = await askTutor({ decision, profile, history, message, generate });
       setHistory((h) => [...h, { role: 'model', text: reply.text }]);
-    } catch {
-      setHistory((h) => [...h, { role: 'model', text: 'Tutor şu an cevap veremiyor. Kendi gerekçeni bir cümleyle yazsan neyi savunurdun?' }]);
+    } catch (e) {
+      // Model çağrısı olmuyorsa (kota, AI Studio proxy'si) oyun durmasın: çevrimdışı sorulara geç.
+      console.error('Tutor hatası, çevrimdışı moda geçiliyor:', e);
+      setFailed(true);
+      const reply = await askTutor({ decision, profile, history, message, generate: null });
+      setHistory((h) => [...h, { role: 'model', text: reply.text }]);
     } finally {
       setBusy(false);
     }

@@ -10,7 +10,7 @@ YZM301 · Ödev 1
 
 | | |
 |---|---|
-| AI Studio uygulaması | **TODO** |
+| AI Studio uygulaması | https://ai.studio/apps/81c335ee-e5d5-40e1-bfd6-0d604951e640 |
 | 60 sn demo video | https://youtu.be/emrkpLx8I1k |
 
 ## Teslim → kanıt

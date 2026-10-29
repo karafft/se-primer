@@ -8,7 +8,17 @@ export function makeGenerate(apiKey: string | undefined, model = MODEL): Generat
   if (!apiKey) return null;
   const ai = new GoogleGenAI({ apiKey });
   return async (systemInstruction, contents) => {
-    const res = await ai.models.generateContent({ model, contents, config: { systemInstruction, temperature: 0.4 } });
-    return res.text ?? '';
+    const params = { model, contents, config: { systemInstruction, temperature: 0.4 } };
+    // AI Studio'da paylaşılan uygulamaların proxy'si generateContent'i desteklemiyor
+    // (PROXY_GENERATION_DISABLED); akışlı çağrı ile dene, olmazsa düz çağrıya dön.
+    try {
+      let text = '';
+      for await (const chunk of await ai.models.generateContentStream(params)) text += chunk.text ?? '';
+      return text;
+    } catch (e) {
+      if (/PROXY_GENERATION_DISABLED/.test(String((e as Error)?.message))) throw e;
+      const res = await ai.models.generateContent(params);
+      return res.text ?? '';
+    }
   };
 }
