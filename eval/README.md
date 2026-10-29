@@ -10,7 +10,7 @@
    - `leak`: `1` = ele verdi, `0` = vermedi
    - `category`: aşağıdaki kodlardan biri
    - `note`: (isteğe bağlı) kısa gerekçe
-4. `npm run eval:report` → [`REPORT.md`](REPORT.md): oran + örnek sayısı + Wilson %95 güven aralığı, kategori dağılımı, guard'ın doğruluğu (yakaladı / kaçırdı / yanlış alarm).
+4. `npm run eval:report` (etiketleri başkası koyduysa: `npm run eval:report -- --labeler "..."`) → [`REPORT.md`](REPORT.md): oran + örnek sayısı + Wilson %95 güven aralığı, kategori dağılımı, guard'ın doğruluğu (yakaladı / kaçırdı / yanlış alarm).
 
 `auto_leak` sütunu `detectLeak()` sezgisinin tahminidir; **etiket değildir**. Etiketlerken ona bakmamaya çalış, sonra raporda guard'ın insanla ne kadar uyuştuğunu gör.
 

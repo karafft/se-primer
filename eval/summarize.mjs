@@ -5,7 +5,10 @@ import { fileURLToPath } from 'node:url';
 import { parseCsv } from './csv.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const file = process.argv[2] ?? join(here, 'results', 'labels.csv');
+const args = process.argv.slice(2);
+const flag = (name) => { const i = args.indexOf(name); return i >= 0 ? args.splice(i, 2)[1] : undefined; };
+const labeler = flag('--labeler') ?? 'elle (1 kişi)';
+const file = args[0] ?? join(here, 'results', 'labels.csv');
 const rows = parseCsv(readFileSync(file, 'utf8'));
 const meta = (() => {
   try { return JSON.parse(readFileSync(join(here, 'results', 'outputs.json'), 'utf8')).meta; } catch { return {}; }
@@ -43,7 +46,7 @@ const afterGuard = fn; // guard yakaladığını gizler; kaçırdığı sızınt
 
 const report = `# Tutor eval raporu
 
-- Model: \`${meta.model ?? '?'}\` · Tarih: ${meta.date ?? '?'} · Etiketleyen: elle (1 kişi)
+- Model: \`${meta.model ?? '?'}\` · Tarih: ${meta.date ?? '?'} · Etiketleyen: ${labeler}
 - Örnek sayısı: **n = ${n}**
 
 ## Ana ölçüt: "Tutor cevabı ele verdi mi?"
