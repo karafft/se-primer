@@ -50,7 +50,7 @@ export const DECISIONS: Record<DecisionId, Decision> = {
     prompt: 'Düzeltme hazır. Ekip "hemen basalım" diyor; hastane müdürü her dakika arıyor. Yayına almadan önce?',
     options: { A: 'Önce kısa smoke test koş', B: 'Hemen yayına al' },
     hint: 'Smoke test en kritik yolu (randevu al → iptal et → SMS onayı) birkaç dakikada dener. Kaç dakika kazanırsın, neyi riske atarsın?',
-    tutorOpening: 'Bu düzeltmenin neyi bozabileceğini yayından önce en hızlı nasıl öğrenirsin?',
+    tutorOpening: 'Yayına alacağın bu değişikliğin neyi bozabileceğini yayından önce en hızlı nasıl öğrenirsin?',
   },
   kvkk: {
     id: 'kvkk',
@@ -64,6 +64,15 @@ export const DECISIONS: Record<DecisionId, Decision> = {
 };
 
 type Choices = Partial<Record<DecisionId, Choice>>;
+
+// KÖ-6: 2. kararın metni 1. karara göre değişir; geri dönen oyuncu için ortada "düzeltme" yoktur.
+export function decisionPrompt(id: DecisionId, choices: Choices): string {
+  if (id === 'test' && choices.mimari) {
+    const ready = choices.mimari === 'A' ? 'v2.3\'e dönüş paketi hazır.' : 'Yama hazır.';
+    return `${ready} Ekip "hemen basalım" diyor; hastane müdürü her dakika arıyor. Yayına almadan önce?`;
+  }
+  return DECISIONS[id].prompt;
+}
 
 export function consequence(id: DecisionId, choices: Choices): Consequence {
   const c = choices[id];

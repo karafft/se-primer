@@ -21,7 +21,7 @@ YZM301 · Ödev 1
 | Tasarım | [design/stitch/](design/stitch/) (3 ekran), [DESIGN.md](DESIGN.md), durum makinesi: [spec.md §7](spec.md#7-akış-şeması-durum-makinesi) |
 | Çalışan uygulama | AI Studio linki (yukarıda) |
 | Tutor eval | [eval/](eval/README.md): 20 öğrenci cevabı, hata kategorileri, [REPORT.md](eval/REPORT.md) |
-| Cypress demo | [cypress/e2e/](cypress/e2e/): 8 yolun hepsi + kişiselleştirme + tutor (18 test), video: [docs/demo.mp4](docs/demo.mp4) |
+| Cypress demo | [cypress/e2e/](cypress/e2e/): 8 yolun hepsi + kişiselleştirme + tutor (20 test), video: [docs/demo.mp4](docs/demo.mp4) |
 | Ürün kararı | aşağıda |
 
 ## Ürün kararı: yapmadığım 3 özellik
@@ -75,7 +75,8 @@ npm run eval:report
 - Oynayan: Volkan (sınıf arkadaşı), AI Studio linkinden, telefonda
 - Süre: **TODO** dk
 - İlk takıldığı yer: Karar 2 · Test. Sonunda SON A ile bitirdi (08:25).
-- spec.md'ye eklenen kabul örneği: **TODO (KÖ-6)**
+- Neden takıldı: 2. karar "Düzeltme hazır" diye başlıyordu; oysa 1. kararda eski sürüme dönmüştü, ortada bir düzeltme yoktu.
+- spec.md'ye eklenen kabul örneği: KÖ-6 (2. karar metni 1. karara göre değişir), Cypress testi `paths.cy.ts`
 
 ## Kaynakça
 

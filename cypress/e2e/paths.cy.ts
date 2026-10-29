@@ -32,3 +32,20 @@ describe('Tüm yollar baştan sona oynanır', () => {
     cy.get('[data-cy=profile-done]').should('be.disabled');
   });
 });
+
+// KÖ-6 (arkadaş testi): 2. karar 1. kararın sonucuyla tutarlı konuşur.
+describe('KÖ-6: 2. karar metni 1. karara uyar', () => {
+  it('Geri dönen oyuncu "dönüş paketi" görür, "düzeltme" görmez', () => {
+    cy.visit('/');
+    cy.startGame();
+    cy.decide('mimari', 'A');
+    cy.get('[data-cy=prompt]').should('contain', "v2.3'e dönüş paketi hazır.").and('not.contain', 'Düzeltme').and('not.contain', 'Yama');
+  });
+
+  it('Yama yapan oyuncu "Yama hazır" görür', () => {
+    cy.visit('/');
+    cy.startGame();
+    cy.decide('mimari', 'B');
+    cy.get('[data-cy=prompt]').should('contain', 'Yama hazır.');
+  });
+});

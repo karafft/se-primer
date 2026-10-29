@@ -1,7 +1,7 @@
 // Sokratik tutor (spec.md §6). Model çağrısı dışarıdan verilir (`generate`), böylece
 // tarayıcı, eval betiği ve çevrimdışı mod aynı kuralı kullanır.
-import { DECISIONS, LEVELS, ROLES } from '../game/story.ts';
-import type { DecisionId, Profile } from '../game/types.ts';
+import { decisionPrompt, DECISIONS, LEVELS, ROLES } from '../game/story.ts';
+import type { Choice, DecisionId, Profile } from '../game/types.ts';
 
 export interface Turn {
   role: 'user' | 'model';
@@ -16,11 +16,11 @@ export interface TutorReply {
   leakReason?: string;
 }
 
-export function systemPrompt(decision: DecisionId, profile: Profile | null): string {
+export function systemPrompt(decision: DecisionId, profile: Profile | null, choices: Partial<Record<DecisionId, Choice>> = {}): string {
   const d = DECISIONS[decision];
   return [
     'Sen "SE Primer" adlı interaktif kitabın Sokratik tutorusun. Oyuncu bir hastane randevu sistemi krizinde nöbetçi mühendis.',
-    `Şu anki karar: ${d.label}. Durum: ${d.prompt}${d.log ? `\nLog:\n${d.log}` : ''}`,
+    `Şu anki karar: ${d.label}. Durum: ${decisionPrompt(decision, choices)}${d.log ? `\nLog:\n${d.log}` : ''}`,
     `Seçenekler: A) ${d.options.A}  B) ${d.options.B}`,
     profile ? `Oyuncu seviyesi: ${LEVELS[profile.level]}. Rolü: ${ROLES[profile.role]}.` : '',
     'KURALLAR:',
@@ -84,8 +84,9 @@ export async function askTutor(opts: {
   message: string;
   generate: Generate | null;
   guard?: boolean;
+  choices?: Partial<Record<DecisionId, Choice>>;
 }): Promise<TutorReply> {
-  const { decision, profile, history, message, generate, guard = true } = opts;
+  const { decision, profile, history, message, generate, guard = true, choices } = opts;
   const turnIndex = history.filter((t) => t.role === 'user').length;
   if (!generate) return { text: fallback(decision, turnIndex), source: 'offline' };
 
@@ -94,7 +95,7 @@ export async function askTutor(opts: {
     ...history.map((t) => ({ role: t.role, parts: [{ text: t.text }] })),
     { role: 'user' as const, parts: [{ text: message }] },
   ];
-  const text = (await generate(systemPrompt(decision, profile), contents)).trim();
+  const text = (await generate(systemPrompt(decision, profile, choices), contents)).trim();
   const leakReason = detectLeak(text, decision);
   if (guard && leakReason) return { text: fallback(decision, turnIndex), source: 'guard', leakReason };
   return { text, source: 'model', ...(leakReason ? { leakReason } : {}) };

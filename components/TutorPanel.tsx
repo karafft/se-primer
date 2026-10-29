@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 import { DECISIONS } from '../game/story.ts';
-import type { DecisionId, Profile } from '../game/types.ts';
+import type { DecisionId, GameState, Profile } from '../game/types.ts';
 import { askTutor, type Turn } from '../tutor/core.ts';
 import { makeGenerate } from '../tutor/gemini.ts';
 
-export default function TutorPanel({ decision, profile }: { decision: DecisionId; profile: Profile }) {
+export default function TutorPanel({ decision, profile, choices }: { decision: DecisionId; profile: Profile; choices: GameState['choices'] }) {
   const online = useMemo(() => makeGenerate(process.env.API_KEY || process.env.GEMINI_API_KEY), []);
   const [failed, setFailed] = useState(false);
   const generate = failed ? null : online;
@@ -20,7 +20,7 @@ export default function TutorPanel({ decision, profile }: { decision: DecisionId
     setBusy(true);
     setHistory((h) => [...h, { role: 'user', text: message }]);
     try {
-      const reply = await askTutor({ decision, profile, history, message, generate });
+      const reply = await askTutor({ decision, profile, history, message, generate, choices });
       setHistory((h) => [...h, { role: 'model', text: reply.text }]);
     } catch (e) {
       // Model çağrısı olmuyorsa (kota, AI Studio proxy'si) oyun durmasın: çevrimdışı sorulara geç.

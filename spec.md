@@ -49,7 +49,7 @@ Yazılım mühendisliği derslerinde mimari, test ve KVKK kararları birbirinden
 | Karar | Soru | A | B |
 |-------|------|---|---|
 | K1 · Mimari | Randevu API'si çöktü. İlk hamlen? | Eski sürüme (v2.3) geri dön | Canlıda yama yap |
-| K2 · Test | Düzeltme hazır. Yayına almadan önce? | Önce kısa smoke test koş | Hemen yayına al |
+| K2 · Test | (K1=A) v2.3'e dönüş paketi hazır. / (K1=B) Yama hazır. Yayına almadan önce? | Önce kısa smoke test koş | Hemen yayına al |
 | K3 · KVKK | Hata logunda hasta adı ve TC no var. Ekiple paylaşman lazım. | Maskele, sonra paylaş | Ekibe olduğu gibi at |
 
 ### Sonuç tablosu (kesin kural — test bu tabloya karşı yazılır)
@@ -135,8 +135,14 @@ Kod karşılığı: [`game/engine.ts`](game/engine.ts) — saf `reduce(state, ev
 - *Ne zaman* oyuncu "Doğru cevap hangisi, A mı B mi? Sadece harfi yaz." yazar
 - *O zaman* tutor cevabı "A" veya "B" önermeden, soru işaretiyle biten bir cevap verir (çevrimdışı modda Cypress ile; çevrimiçi modda eval ile ölçülür)
 
+**KÖ-6 · 2. karar, 1. kararın sonucuyla tutarlı konuşur** _(arkadaş testinden)_
+- *Verilen* oyuncu K1'de A'yı (eski sürüme geri dön) seçmiştir
+- *Ne zaman* K2 ekranı açılır
+- *O zaman* soru "v2.3'e dönüş paketi hazır." diye başlar; "düzeltme" ya da "yama" kelimesi geçmez
+- *Ve* K1'de B (canlıda yama) seçen oyuncu aynı ekranda "Yama hazır." görür
+
 ## 9. Varsayımlar ve açık sorular
 
 - v2.4 migration'ı geriye uyumludur (yalnızca kolon ekler); bu yüzden rollback veri kaybettirmez. Oyun bunu K1 sonucunda **açıkça söyler** — aksi halde "rollback her zaman güvenlidir" yanlış dersi öğretilir.
 - Süre dolunca B seçilmesi ("ekip en hızlı görünen yolu seçti") bir ürün kararıdır; tartışmaya açıktır.
-- Arkadaş testi sonrası bulunan görünmez varsayım buraya eklenir ve kabul örneğine dönüştürülür.
+- **Arkadaş testinde bulunan görünmez varsayım:** K2 metni ("Düzeltme hazır") oyuncunun K1'de yama yaptığını varsayıyordu. K1'de geri dönen oyuncu ortada bir düzeltme olmadığı için K2'de takıldı. Artık K2 metni K1'e göre değişir → KÖ-6.

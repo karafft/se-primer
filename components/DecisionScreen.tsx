@@ -1,10 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { DECISION_SECONDS, DECISIONS } from '../game/story.ts';
-import type { Choice, DecisionId, Profile } from '../game/types.ts';
+import { DECISION_SECONDS, DECISIONS, decisionPrompt } from '../game/story.ts';
+import type { Choice, DecisionId, GameState, Profile } from '../game/types.ts';
 import TutorPanel from './TutorPanel.tsx';
 
-export default function DecisionScreen(props: { id: DecisionId; profile: Profile; onChoose: (c: Choice, timedOut?: boolean) => void }) {
-  const { id, profile, onChoose } = props;
+export default function DecisionScreen(props: {
+  id: DecisionId;
+  profile: Profile;
+  choices: GameState['choices'];
+  onChoose: (c: Choice, timedOut?: boolean) => void;
+}) {
+  const { id, profile, choices, onChoose } = props;
   const d = DECISIONS[id];
   const timed = profile.level === 'deneyimli';
   const [left, setLeft] = useState(DECISION_SECONDS);
@@ -35,7 +40,7 @@ export default function DecisionScreen(props: { id: DecisionId; profile: Profile
         </div>
       )}
       <p className="eyebrow">{d.label}</p>
-      <h2>{d.prompt}</h2>
+      <h2 data-cy="prompt">{decisionPrompt(id, choices)}</h2>
       {d.log && (
         <pre className="log" data-cy="log">
           {d.log}
@@ -54,7 +59,7 @@ export default function DecisionScreen(props: { id: DecisionId; profile: Profile
           </button>
         ))}
       </div>
-      <TutorPanel decision={id} profile={profile} />
+      <TutorPanel decision={id} profile={profile} choices={choices} />
     </section>
   );
 }

@@ -30,6 +30,7 @@ export default function App() {
           key={screen.id}
           id={screen.id}
           profile={profile}
+          choices={state.choices}
           onChoose={(choice, timedOut) => dispatch({ type: 'SEC', choice, timedOut })}
         />
       )}
