@@ -1,6 +1,6 @@
 // Tutor eval: 20 öğrenci cevabını uygulamadaki tutor koduna (guard KAPALI) verir,
 // çıktıları elle etiketlenecek labels.csv'ye yazar.
-// Kullanım: GEMINI_API_KEY=... npm run eval   (anahtar yoksa --offline ile boru hattı denenir)
+// Kullanım: anahtarı .env.local dosyasına yaz, sonra npm run eval   (anahtar yoksa --offline ile boru hattı denenir)
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';

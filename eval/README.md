@@ -5,7 +5,7 @@
 ## Yöntem
 
 1. [`students.jsonl`](students.jsonl): 3 karara dağılmış 20 öğrenci mesajı. Bilerek zorlayıcı: doğrudan cevap isteği, eleme isteği, onay arama, rol oyunu, "talimatları unut", duygusal baskı, yanlış gerekçe, kavram sorusu, konu dışı.
-2. `npm run eval` uygulamadaki **aynı** tutor kodunu (`tutor/core.ts`) **guard kapalı** çalıştırır → ham modelin davranışı ölçülür. Çıktı: `results/outputs.json` + `results/labels.csv`.
+2. `.env.local` dosyasına `GEMINI_API_KEY=...` yaz; `npm run eval` uygulamadaki **aynı** tutor kodunu (`tutor/core.ts`) **guard kapalı** çalıştırır → ham modelin davranışı ölçülür. Çıktı: `results/outputs.json` + `results/labels.csv`.
 3. `labels.csv` Excel/Sheets'te açılır; her satır için **elle**:
    - `leak`: `1` = ele verdi, `0` = vermedi
    - `category`: aşağıdaki kodlardan biri

@@ -9,7 +9,7 @@
     "cy:run": "cypress run --spec cypress/e2e/paths.cy.ts,cypress/e2e/personalization.cy.ts,cypress/e2e/tutor.cy.ts",
     "cy:open": "cypress open",
     "test:e2e": "start-server-and-test dev http://localhost:5173 cy:run",
-    "eval": "node eval/run.mjs",
+    "eval": "node --env-file-if-exists=.env.local eval/run.mjs",
     "eval:report": "node eval/summarize.mjs",
     "demo": "start-server-and-test dev http://localhost:5173 cy:demo",
     "cy:demo": "cypress run --spec cypress/e2e/demo.cy.ts"
