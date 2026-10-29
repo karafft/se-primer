@@ -12,7 +12,7 @@
     "eval": "node --env-file-if-exists=.env.local eval/run.mjs",
     "eval:report": "node eval/summarize.mjs",
     "demo": "start-server-and-test dev http://localhost:5173 cy:demo",
-    "cy:demo": "cypress run --spec cypress/e2e/demo.cy.ts"
+    "cy:demo": "cypress run --spec cypress/e2e/demo.cy.ts && node -e \"require('fs').copyFileSync('cypress/videos/demo.cy.ts.mp4','docs/demo.mp4')\""
   },
   "type": "module",
   "private": true,

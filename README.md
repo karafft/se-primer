@@ -21,7 +21,7 @@ YZM301 · Ödev 1
 | Tasarım | [design/stitch/](design/stitch/) (3 ekran), [DESIGN.md](DESIGN.md), durum makinesi: [spec.md §7](spec.md#7-akış-şeması-durum-makinesi) |
 | Çalışan uygulama | AI Studio linki (yukarıda) |
 | Tutor eval | [eval/](eval/README.md): 20 öğrenci cevabı, hata kategorileri, [REPORT.md](eval/REPORT.md) |
-| Cypress demo | [cypress/e2e/](cypress/e2e/): 8 yolun hepsi + kişiselleştirme + tutor (18 test), video: [demo.cy.ts.mp4](cypress/videos/demo.cy.ts.mp4) |
+| Cypress demo | [cypress/e2e/](cypress/e2e/): 8 yolun hepsi + kişiselleştirme + tutor (18 test), video: [docs/demo.mp4](docs/demo.mp4) |
 | Ürün kararı | aşağıda |
 
 ## Ürün kararı: yapmadığım 3 özellik

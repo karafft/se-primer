@@ -8,7 +8,5 @@ export default defineConfig({
     supportFile: 'cypress/support/e2e.ts',
   },
   video: true,
-  // demo videosu repoda tutuluyor; her koşuda silinmesin
-  trashAssetsBeforeRuns: false,
   videoCompression: 32,
 });

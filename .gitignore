@@ -5,6 +5,5 @@ dist/
 cypress/screenshots/
 cypress/downloads/
 eval/results/*.raw.jsonl
-cypress/videos/*
-!cypress/videos/demo.cy.ts.mp4
 .claude/
+cypress/videos/

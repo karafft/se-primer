@@ -1,4 +1,4 @@
-// ~60 sn demo videosu: `npm run demo` → cypress/videos/demo.cy.ts.mp4
+// ~60 sn demo videosu: `npm run demo` → docs/demo.mp4
 // Yavaş oynanır ki izleyen okuyabilsin. Diğer testlerden ayrı tutulur.
 const pause = (ms = 2500) => cy.wait(ms);
 
