@@ -5,7 +5,7 @@ import { askTutor, type Turn } from '../tutor/core.ts';
 import { makeGenerate } from '../tutor/gemini.ts';
 
 export default function TutorPanel({ decision, profile }: { decision: DecisionId; profile: Profile }) {
-  const generate = useMemo(() => makeGenerate(process.env.API_KEY), []);
+  const generate = useMemo(() => makeGenerate(process.env.API_KEY || process.env.GEMINI_API_KEY), []);
   const [open, setOpen] = useState(false);
   const [history, setHistory] = useState<Turn[]>([]);
   const [draft, setDraft] = useState('');
