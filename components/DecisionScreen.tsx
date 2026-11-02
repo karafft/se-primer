@@ -1,17 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
-import { DECISION_SECONDS, DECISIONS, decisionPrompt } from '../game/story.ts';
+import type { Uyum } from '../game/davranis.ts';
+import { DECISION_ORDER, DECISION_SECONDS, DECISIONS, decisionPrompt } from '../game/story.ts';
 import type { Choice, DecisionId, GameState, Profile } from '../game/types.ts';
 import TutorPanel from './TutorPanel.tsx';
+
+// ?risk=1: demo videosunda modelin olasılığını gösterir.
+const RISKI_GOSTER = new URLSearchParams(location.search).has('risk');
 
 export default function DecisionScreen(props: {
   id: DecisionId;
   profile: Profile;
   choices: GameState['choices'];
+  uyum: Uyum | null;
+  onTutorAc: () => void;
   onChoose: (c: Choice, timedOut?: boolean) => void;
 }) {
-  const { id, profile, choices, onChoose } = props;
+  const { id, profile, choices, uyum, onTutorAc, onChoose } = props;
   const d = DECISIONS[id];
-  const timed = profile.level === 'deneyimli';
+  // spec.md §10: 1. kararda henüz davranış verisi yok, süre kalkmaz.
+  const sureKalkti = profile.level === 'deneyimli' && id !== DECISION_ORDER[0] && !!uyum?.mudahale;
+  const timed = profile.level === 'deneyimli' && !sureKalkti;
   const [left, setLeft] = useState(DECISION_SECONDS);
   const chosen = useRef(false);
 
@@ -51,6 +59,21 @@ export default function DecisionScreen(props: {
           <strong>İpucu</strong> {d.hint}
         </aside>
       )}
+      {profile.level !== 'yeni' && uyum?.mudahale && (
+        <aside className="hint" data-cy="model-hint">
+          <strong>Bir dur</strong> {d.hint}
+        </aside>
+      )}
+      {sureKalkti && (
+        <p className="muted" data-cy="model-sure-kalkti">
+          Bu karar için süre baskısını kaldırdık. Acele etme.
+        </p>
+      )}
+      {uyum && (
+        <small hidden={!RISKI_GOSTER} data-cy="p">
+          {uyum.p}
+        </small>
+      )}
       <div className="choices">
         {(['A', 'B'] as Choice[]).map((c) => (
           <button key={c} className="choice" data-cy={`choice-${c}`} onClick={() => choose(c)}>
@@ -59,7 +82,7 @@ export default function DecisionScreen(props: {
           </button>
         ))}
       </div>
-      <TutorPanel decision={id} profile={profile} choices={choices} />
+      <TutorPanel decision={id} profile={profile} choices={choices} onOpen={onTutorAc} />
     </section>
   );
 }

@@ -1,0 +1,62 @@
+{
+  "title": "SE Primer riskli karar modeli",
+  "target": "yanlis_karar",
+  "classes": [
+    0,
+    1
+  ],
+  "class_labels": {
+    "0": "guvenli",
+    "1": "riskli"
+  },
+  "features": [
+    {
+      "name": "seviye",
+      "label": "Seviye (0 yeni, 1 orta, 2 deneyimli)",
+      "example": 1
+    },
+    {
+      "name": "sahne_no",
+      "label": "Karar sırası",
+      "example": 2
+    },
+    {
+      "name": "onceki_yanlis_sayisi",
+      "label": "Önceki riskli seçim sayısı",
+      "example": 1
+    },
+    {
+      "name": "onceki_karar_suresi_sn",
+      "label": "Önceki karar süresi (sn)",
+      "example": 3.0
+    },
+    {
+      "name": "okuma_suresi_sn",
+      "label": "Önceki ekranı okuma süresi (sn)",
+      "example": 2.0
+    },
+    {
+      "name": "tutor_kullanim_sayisi",
+      "label": "Tutor açma sayısı",
+      "example": 0
+    }
+  ],
+  "karar_esigi": 0.5,
+  "kabul": {
+    "test_roc_auc": 0.65,
+    "test_recall": 0.6
+  },
+  "metrics": {
+    "test_roc_auc": 0.7897,
+    "test_recall": 0.7576,
+    "test_accuracy": 0.6852,
+    "test_satir": 108
+  },
+  "veri": {
+    "gercek_oturum": 0,
+    "gercek_satir": 0,
+    "sentetik_satir": 360
+  },
+  "seed": 13,
+  "sklearn_version": "1.9.1"
+}

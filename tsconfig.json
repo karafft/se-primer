@@ -12,5 +12,5 @@
     "skipLibCheck": true,
     "types": ["vite/client", "node"]
   },
-  "include": ["*.ts", "*.tsx", "game", "tutor", "components"]
+  "include": ["*.ts", "*.tsx", "game", "tutor", "uyum", "components"]
 }

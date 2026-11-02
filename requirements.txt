@@ -1,0 +1,6 @@
+# Python 3.12. Eğitimi etkileyen sürümler sabit: başka ortamda da aynı metrikler çıksın.
+scikit-learn==1.9.1
+skl2onnx==1.20.0
+pandas
+onnx
+onnxruntime

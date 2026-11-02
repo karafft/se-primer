@@ -6,3 +6,6 @@ cypress/screenshots/
 cypress/downloads/
 eval/results/*.raw.jsonl
 cypress/videos/
+.venv/
+__pycache__/
+*.tmp

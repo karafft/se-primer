@@ -146,3 +146,46 @@ Kod karşılığı: [`game/engine.ts`](game/engine.ts) — saf `reduce(state, ev
 - v2.4 migration'ı geriye uyumludur (yalnızca kolon ekler); bu yüzden rollback veri kaybettirmez. Oyun bunu K1 sonucunda **açıkça söyler** — aksi halde "rollback her zaman güvenlidir" yanlış dersi öğretilir.
 - Süre dolunca B seçilmesi ("ekip en hızlı görünen yolu seçti") bir ürün kararıdır; tartışmaya açıktır.
 - **Arkadaş testinde bulunan görünmez varsayım:** K2 metni ("Düzeltme hazır") oyuncunun K1'de yama yaptığını varsayıyordu. K1'de geri dönen oyuncu ortada bir düzeltme olmadığı için K2'de takıldı. Artık K2 metni K1'e göre değişir → KÖ-6.
+
+## 10. v2: Davranıştan öğrenen uyum modeli
+
+Bu bölüm **eğitimden önce** yazıldı. Eşiği geçmeyen model yayınlanmaz.
+
+**Soru:** Bu oyuncu, az önce açılan kararda riskli seçeneği (B) seçecek mi?
+
+**Neden bu hedef:** Sabit kural yalnız girişte beyan edilen seviyeye bakıyor. Model, oyuncunun o ana kadarki davranışına bakar: önceki sonucu okudu mu, aceleyle mi karar verdi, tutor'a başvurdu mu. Kendini "deneyimli" diye tanıtıp sonuçları okumadan geçen oyuncu da yardım alır.
+
+**Girdiler** (yalnız karar ekranı açıldığı anda bilinenler; ayrıntı `data/SOZLUK.md`): `seviye`, `sahne_no`, `onceki_yanlis_sayisi`, `onceki_karar_suresi_sn`, `okuma_suresi_sn`, `tutor_kullanim_sayisi`.
+
+**Çıktı:** `yanlis_karar` sınıfının olasılığı `p`. `p ≥ karar_esigi` (0,50) ise müdahale edilir:
+
+| Durum | Davranış |
+|-------|----------|
+| "Yeni başladım" dışındaki seviyeler | Karar ekranında `data-cy=model-hint` ile kararın ipucu metni (yeni başlayan zaten görüyor) |
+| "Deneyimliyim", 2. ve 3. karar | 60 sn geri sayım kalkar, `data-cy=model-sure-kalkti` notu görünür |
+
+1\. kararda süre kalkmaz, çünkü henüz bu oturuma ait karar davranışı yoktur (KÖ-4 geçerliliğini korur). Model yüklenemezse oyun §5'teki sabit kurallarla oynanır.
+
+**Eval metriği ve kabul eşiği (altın standart):** Oturum bazında ayrılmış (`GroupShuffleSplit`, aynı oturumun satırları hem eğitimde hem testte olamaz) test kümesinde:
+
+- ROC AUC **≥ 0,65**
+- `karar_esigi`'nde recall **≥ 0,60** (yardıma ihtiyacı olanı kaçırmak, gereksiz ipucundan pahalıdır)
+
+İkisinden biri eşiğin altındaysa `train.py` hata koduyla durur ve `model/` güncellenmez.
+
+**Eğitim verisi kuralı:** Süre dolduğu için otomatik B seçilen satırlar (`sure_doldu=1`) eğitime girmez; bunlar oyuncunun kararı değildir. Veri toplama modunda (`?topla=1`) model kapalıdır, çünkü modelin verdiği ipucu etiketi etkiler ve döngüsel bir önyargı oluşturur.
+
+**KÖ-7 · Riskli oyuncuya müdahale**
+- *Verilen* seviye "Biraz deneyimim var", K1'de B seçilmiş, K1 sonucu okunmadan 2 sn'de geçilmiş
+- *Ne zaman* K2 ekranı açılır
+- *O zaman* `model-hint` görünür
+
+**KÖ-8 · Dikkatli oyuncuya müdahale yok**
+- *Verilen* aynı seviye, K1'de A seçilmiş, K1 sonucu 60 sn okunmuş
+- *Ne zaman* K2 ekranı açılır
+- *O zaman* `model-hint` görünmez
+
+**KÖ-9 · Python ile uygulama aynı sonucu verir**
+- *Verilen* `tests/parite.json` içindeki 5 referans girdi
+- *Ne zaman* uygulama aynı `model.onnx` ile `p` hesaplar
+- *O zaman* Python oracle ile fark `1e-4`'ten küçüktür

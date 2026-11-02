@@ -70,6 +70,30 @@ npm run eval
 npm run eval:report
 ```
 
+## v2: Davranıştan öğrenen uyum
+
+Model, açılan kararda oyuncunun riskli seçeneği seçme olasılığını tahmin eder; eşik geçilirse ipucu çıkar, deneyimli oyuncunun süre baskısı kalkar. Gereksinim ve eşik: [spec.md §10](spec.md). Model kartı: [model/README.md](model/README.md). Yayın ve ödünleşim: [RELEASE.md](RELEASE.md).
+
+Kurulum, eğitim ve test (3 komut):
+
+```bash
+python -m venv .venv && .venv/Scripts/python -m pip install -r requirements.txt && npm install
+```
+
+```bash
+.venv/Scripts/python train.py && .venv/Scripts/python tests/parite.py
+```
+
+```bash
+npm run test:e2e
+```
+
+**Veri toplama:** Oyunu `?topla=1` ile açın. Model kapalıdır; oyun sonunda oturum CSV'si kopyalanır. Gelen satırlar `data/oturumlar.csv` dosyasına eklenir.
+
+**Sentetik veri:** `data/sentetik.py`, tohum 13, 120 oturum. Üretici kural dosyanın başında yazılıdır ve bir varsayımdır. Yeniden üretmek gerçek satırlara dokunmaz.
+
+**Mobil:** `mobile/` aynı `game/` kurallarını ve gömülü `model.onnx`'i kullanır. Parite testi web üzerinde koşar; mobilde otomatik parite testi yoktur.
+
 ## Arkadaş testi
 
 - Oynayan: Volkan (sınıf arkadaşı), AI Studio linkinden, telefonda

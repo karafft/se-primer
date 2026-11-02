@@ -4,7 +4,7 @@ import type { DecisionId, GameState, Profile } from '../game/types.ts';
 import { askTutor, type Turn } from '../tutor/core.ts';
 import { makeGenerate } from '../tutor/gemini.ts';
 
-export default function TutorPanel({ decision, profile, choices }: { decision: DecisionId; profile: Profile; choices: GameState['choices'] }) {
+export default function TutorPanel({ decision, profile, choices, onOpen }: { decision: DecisionId; profile: Profile; choices: GameState['choices']; onOpen?: () => void }) {
   const online = useMemo(() => makeGenerate(process.env.API_KEY || process.env.GEMINI_API_KEY), []);
   const [failed, setFailed] = useState(false);
   const generate = failed ? null : online;
@@ -35,7 +35,7 @@ export default function TutorPanel({ decision, profile, choices }: { decision: D
 
   return (
     <div className="tutor">
-      <button className="tutor-toggle" data-cy="tutor-toggle" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+      <button className="tutor-toggle" data-cy="tutor-toggle" aria-expanded={open} onClick={() => { if (!open) onOpen?.(); setOpen(!open); }}>
         Tutor'a sor {!generate && <span className="offline">çevrimdışı</span>}
       </button>
       {open && (
