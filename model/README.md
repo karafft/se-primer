@@ -10,19 +10,24 @@ SE Primer oyununda, açılan karar ekranında oyuncunun riskli seçeneği (B) se
 
 ## Veri
 
-`data/oturumlar.csv`, sözlüğü `data/SOZLUK.md`. Gerçek ve sentetik satır sayıları `config.json` → `veri` alanındadır. Sentetik satırlar `data/sentetik.py` kuralıyla üretilir.
-
-**Sınır:** Sentetik veriyle ölçülen metrik, modelin üreticinin kuralını öğrendiğini gösterir; gerçek oyuncu davranışını öngördüğünü göstermez. Asıl değerlendirme gerçek satırlarla yapılmalıdır.
+`data/oturumlar.csv`, sözlüğü `data/SOZLUK.md`: 40 gerçek oturum (119 satır) ve 120 sentetik oturum (360 satır, `data/sentetik.py`, tohum 13).
 
 ## Metrikler
 
-Oturum bazında ayrılmış test kümesinde ölçülür, güncel değerler `config.json` → `metrics` alanındadır. Kabul eşiği eğitimden önce `spec.md` §10'da yazıldı: ROC AUC ≥ 0,65, recall ≥ 0,60.
+Oturum bazında ayrılmış test kümesinde, kabul eşiği `spec.md` §10: ROC AUC ≥ 0,65, recall ≥ 0,60. Güncel değerler `config.json` → `metrics`.
+
+| Test kümesi | Satır | ROC AUC | Recall |
+|-------------|-------|---------|--------|
+| Tümü (kapı buna bakar) | 143 | 0,654 | 0,610 |
+| Yalnız gerçek satırlar | 32 | 0,283 | 0,500 |
+
+Gerçek satırlarda öngörü gücü düşük; `okuma_suresi_sn` (gerçek ortanca 1,2 sn) okumayı değil tıklama hızını ölçüyor. Sentetik oturum sayısı 80'de kapıda kalınca 120'ye çıkarıldı.
 
 ## Sınırlar
 
-- Az sayıda oyuncuyla, tek senaryoda (Nöbetçi Mühendis) eğitildi; başka senaryoya genellenmez.
+- Tek senaryoda (Nöbetçi Mühendis) eğitildi; başka senaryoya genellenmez.
 - "Riskli" bu oyunun B seçenekleridir; gerçek hayatta canlıda yama her zaman yanlış değildir.
-- Süre özellikleri cihaz ve okuma hızından etkilenir; yavaş okuyan oyuncu "dikkatli" görünebilir, ekran okuyucu kullananlar için ölçülmedi.
+- Süre özellikleri cihaz ve okuma hızından etkilenir; ekran okuyucu kullananlar için ölçülmedi.
 
 ## Kullanılmaması gereken durumlar
 

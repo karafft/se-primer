@@ -45,11 +45,17 @@ def main() -> None:
     model.fit(X.iloc[egitim], y.iloc[egitim])
     p = model.predict_proba(X.iloc[test])[:, 1]
     tahmin = (p >= KARAR_ESIGI).astype(int)
+    gercek_test = (df["kaynak"].iloc[test] == "gercek").to_numpy()
+    yt = y.iloc[test][gercek_test]
     metrikler = {
         "test_roc_auc": round(float(roc_auc_score(y.iloc[test], p)), 4),
         "test_recall": round(float(recall_score(y.iloc[test], tahmin)), 4),
         "test_accuracy": round(float(accuracy_score(y.iloc[test], tahmin)), 4),
         "test_satir": int(len(test)),
+        # Kapı tüm test kümesine bakar (spec §10); yalnız gerçek satırlar ayrıca raporlanır.
+        "gercek_test_roc_auc": round(float(roc_auc_score(yt, p[gercek_test])), 4) if yt.nunique() == 2 else None,
+        "gercek_test_recall": round(float(recall_score(yt, tahmin[gercek_test])), 4) if yt.sum() else None,
+        "gercek_test_satir": int(gercek_test.sum()),
     }
     gercek = df[df["kaynak"] == "gercek"]
     veri = {"gercek_oturum": int(gercek["oturum_id"].nunique()), "gercek_satir": int(len(gercek)),

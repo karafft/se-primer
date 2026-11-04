@@ -8,7 +8,7 @@
       "okuma_suresi_sn": 12.0,
       "tutor_kullanim_sayisi": 0
     },
-    "p": 0.472838
+    "p": 0.079946
   },
   {
     "girdi": {
@@ -19,7 +19,7 @@
       "okuma_suresi_sn": 2.0,
       "tutor_kullanim_sayisi": 0
     },
-    "p": 0.81671
+    "p": 0.557252
   },
   {
     "girdi": {
@@ -30,7 +30,7 @@
       "okuma_suresi_sn": 25.0,
       "tutor_kullanim_sayisi": 1
     },
-    "p": 0.007188
+    "p": 0.000295
   },
   {
     "girdi": {
@@ -41,7 +41,7 @@
       "okuma_suresi_sn": 1.5,
       "tutor_kullanim_sayisi": 0
     },
-    "p": 0.834202
+    "p": 0.595178
   },
   {
     "girdi": {
@@ -52,6 +52,6 @@
       "okuma_suresi_sn": 30.0,
       "tutor_kullanim_sayisi": 2
     },
-    "p": 0.000495
+    "p": 3.3e-05
   }
 ]

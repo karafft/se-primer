@@ -90,7 +90,7 @@ npm run test:e2e
 
 **Veri toplama:** Oyunu `?topla=1` ile açın. Model kapalıdır; oyun sonunda oturum CSV'si kopyalanır. Gelen satırlar `data/oturumlar.csv` dosyasına eklenir.
 
-**Sentetik veri:** `data/sentetik.py`, tohum 13, 120 oturum. Üretici kural dosyanın başında yazılıdır ve bir varsayımdır. Yeniden üretmek gerçek satırlara dokunmaz.
+**Veri:** 40 gerçek ve 120 sentetik oturum. Sentetik üretici `data/sentetik.py`, tohum 13; kural dosyanın başında yazılıdır.
 
 **Mobil:** `mobile/` aynı `game/` kurallarını ve gömülü `model.onnx`'i kullanır. Parite testi web üzerinde koşar; mobilde otomatik parite testi yoktur.
 

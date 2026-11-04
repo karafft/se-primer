@@ -47,14 +47,17 @@
     "test_recall": 0.6
   },
   "metrics": {
-    "test_roc_auc": 0.7897,
-    "test_recall": 0.7576,
-    "test_accuracy": 0.6852,
-    "test_satir": 108
+    "test_roc_auc": 0.654,
+    "test_recall": 0.6098,
+    "test_accuracy": 0.6364,
+    "test_satir": 143,
+    "gercek_test_roc_auc": 0.2833,
+    "gercek_test_recall": 0.5,
+    "gercek_test_satir": 32
   },
   "veri": {
-    "gercek_oturum": 0,
-    "gercek_satir": 0,
+    "gercek_oturum": 40,
+    "gercek_satir": 119,
     "sentetik_satir": 360
   },
   "seed": 13,

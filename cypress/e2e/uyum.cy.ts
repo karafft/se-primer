@@ -28,10 +28,11 @@ describe('Model uyumu', () => {
   });
 
   it('Riskli deneyimli oyuncunun K2 süresi kalkar', () => {
+    // Model deneyimliyi daha az riskli görür; süre ancak gerçek oturumlardaki gibi hızlı geçişte kalkar.
     cy.startGame({ level: 'deneyimli' });
-    cy.tick(2000);
+    cy.tick(500);
     cy.get('[data-cy=choice-B]').click();
-    cy.tick(2000);
+    cy.tick(500);
     cy.get('[data-cy=next]').click();
     cy.get('[data-cy=model-sure-kalkti]', BEKLE).should('be.visible');
     cy.get('[data-cy=timer]').should('not.exist');
