@@ -4,11 +4,11 @@
 
 **Ne değişti:** v1'de uyum yalnız girişte beyan edilen seviyeye bağlı sabit kurallardı. v2'de oyuncunun davranışından öğrenen küçük bir model (`model/`) karar ekranında ipucu gösterir ve süre baskısını kaldırır. Sabit kurallar yedek olarak durur.
 
-**Sabitlenen commit:** `<HF_COMMIT>` (yayından sonra doldurulacak)
+**Model reposu:** https://huggingface.co/karaft/se-primer-risk · **Sabitlenen commit:** `45f9e3d7684900fac76dd9b51ee024cb505113c5`
 
 ```
-https://huggingface.co/<kullanici>/<repo>/resolve/<HF_COMMIT>/model.onnx
-https://huggingface.co/<kullanici>/<repo>/resolve/<HF_COMMIT>/config.json
+https://huggingface.co/karaft/se-primer-risk/resolve/45f9e3d7684900fac76dd9b51ee024cb505113c5/model.onnx
+https://huggingface.co/karaft/se-primer-risk/resolve/45f9e3d7684900fac76dd9b51ee024cb505113c5/config.json
 ```
 
 ## Geri alma (rollback)

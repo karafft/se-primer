@@ -2,8 +2,8 @@
 import * as ort from 'onnxruntime-web';
 import type { Ozellikler, Uyum } from '../game/davranis.ts';
 
-// Yayından sonra commit'e sabit adres: https://huggingface.co/<kullanici>/<repo>/resolve/<commit>/
-const HF_TABAN = '';
+// Commit'e sabit Hugging Face adresi (RELEASE.md). Erişilemezse public/model/ kopyası kullanılır.
+const HF_TABAN = 'https://huggingface.co/karaft/se-primer-risk/resolve/45f9e3d7684900fac76dd9b51ee024cb505113c5/';
 const YEREL_TABAN = `${import.meta.env.BASE_URL}model/`;
 
 interface Yuklu {
