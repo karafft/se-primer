@@ -12,6 +12,7 @@ YZM301 · Ödev 1
 |---|---|
 | AI Studio uygulaması | https://ai.studio/apps/81c335ee-e5d5-40e1-bfd6-0d604951e640 |
 | 60 sn demo video | https://youtu.be/emrkpLx8I1k |
+| v2 demo video | https://youtube.com/shorts/PpGQu37C_C8 |
 | v2 canlı uygulama | https://karafft.github.io/se-primer/ |
 | v2 Android APK | https://expo.dev/accounts/karaft/projects/se-primer/builds/058983bf-3ac4-4207-8ccc-2f8e1d917afd |
 | v2 model (commit'e sabit) | https://huggingface.co/karaft/se-primer-risk/tree/45f9e3d7684900fac76dd9b51ee024cb505113c5 |
