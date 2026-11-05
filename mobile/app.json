@@ -16,6 +16,15 @@
       "predictiveBackGestureEnabled": false,
       "package": "io.github.karafft.seprimer"
     },
-    "plugins": ["onnxruntime-react-native", "expo-asset"]
+    "plugins": [
+      "onnxruntime-react-native",
+      "expo-asset"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "b5c17bd3-f0e1-4ab9-983d-81e3e28af96a"
+      }
+    },
+    "owner": "karaft"
   }
 }
