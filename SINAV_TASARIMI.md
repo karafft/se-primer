@@ -36,3 +36,17 @@ Harfler: ______________ Banka dışı (anahtar kelime): ______________
 Harfler: ______________ Banka dışı (anahtar kelime): ______________
 
 **Puanlama:** Her soru 20 puan. Soru puanı = 20 × (doğru işaret − yanlış işaret) / doğru cevap sayısı; 0'ın altına düşmez.
+
+---
+
+## Cevap anahtarı
+
+| Soru | Harfler | Banka dışı | Çeldirici |
+|------|---------|------------|-----------|
+| 1 | A, B, C, D | — | E, F |
+| 2 | G, I, N, O | Kararsız test (flaky test) | Q |
+| 3 | K, L | Toplam (kümülatif) harcama limiti | E, Q, S |
+| 4 | A, U, X | Her sürümde otomatik parite (CI) | H, Q |
+| 5 | G, P, Y, Z | Goodhart yasası | F |
+
+**Tasarım gerekçesi:** Çeldiriciler doğru ama o soruya ait olmayan kavramlardır: 3. soruda sınır değer testi ve JSON şema zaten geçmiştir, sorun yetkide ve toplamdadır; 4. soruda `config.json` sözleşmesi bozulmamıştır, sorun sürümdedir; 5. soruda doğrulama geçmiştir, sorun geçerlemededir. Öğrenci kavramı tanımakla kalmaz, hangi sorunu hangi kavramın çözdüğünü ayırt eder. 5. soru bu ödevde yaşanan durumdur.
