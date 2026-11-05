@@ -1,12 +1,13 @@
-// Web ile aynı oyun kuralları (../game) ve aynı model.onnx; yalnız arayüz React Native. Tutor burada hazır soruyla çalışır.
+// Web ile aynı oyun kuralları (../game) ve aynı model.onnx; yalnız arayüz React Native. Tutor çevrimdışı modda çalışır (APK'ya API anahtarı konmaz).
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useReducer, useRef, useState } from 'react';
-import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { ozellikCikar, yeniIzler, type Ozellikler, type Uyum } from '../game/davranis.ts';
 import { clock, elapsedMinutes, ending, initialState, reduce } from '../game/engine.ts';
 import { consequence, DECISION_ORDER, DECISION_SECONDS, DECISIONS, decisionPrompt, DEEP_DIVE, ENDINGS, GOALS, INTRO, LEVELS, ROLE_INTRO, ROLES, TIMEOUT_NOTE, TITLE } from '../game/story.ts';
 import type { Choice, DecisionId, GameState, Goal, Level, Profile, Role } from '../game/types.ts';
+import { askTutor, type Turn } from '../tutor/core.ts';
 import { riskHesapla } from './src/model';
 
 function Dugme({ yazi, onPress, kapali, ikincil }: { yazi: string; onPress: () => void; kapali?: boolean; ikincil?: boolean }) {
@@ -42,6 +43,43 @@ function ProfilEkrani({ bitti }: { bitti: (p: Profile) => void }) {
       <Secenekler baslik="3 · Bugün ne öğrenmek istiyorsun?" secenek={GOALS} deger={goal} degis={setGoal} />
       <Dugme yazi="Nöbete başla" kapali={!(level && role && goal)} onPress={() => level && role && goal && bitti({ level, role, goal })} />
     </>
+  );
+}
+
+function TutorKutusu({ id, profile }: { id: DecisionId; profile: Profile }) {
+  const [gecmis, setGecmis] = useState<Turn[]>([]);
+  const [taslak, setTaslak] = useState('');
+
+  const gonder = async () => {
+    const mesaj = taslak.trim();
+    if (!mesaj) return;
+    setTaslak('');
+    const cevap = await askTutor({ decision: id, profile, history: gecmis, message: mesaj, generate: null });
+    setGecmis((g) => [...g, { role: 'user', text: mesaj }, { role: 'model', text: cevap.text }]);
+  };
+
+  return (
+    <View style={s.grup}>
+      <Text style={s.ipucu}>{DECISIONS[id].tutorOpening}</Text>
+      {gecmis.map((t, i) => (
+        <Text key={i} style={t.role === 'model' ? s.ipucu : s.oyuncuMesaj}>
+          {t.text}
+        </Text>
+      ))}
+      <View style={s.tutorSatir}>
+        <TextInput
+          style={s.tutorGirdi}
+          value={taslak}
+          onChangeText={setTaslak}
+          onSubmitEditing={gonder}
+          placeholder="Düşünceni ya da sorunu yaz…"
+          returnKeyType="send"
+        />
+        <Pressable onPress={gonder} style={s.tutorGonder}>
+          <Text style={s.dugmeYazi}>Gönder</Text>
+        </Pressable>
+      </View>
+    </View>
   );
 }
 
@@ -90,7 +128,7 @@ function KararEkrani(props: { id: DecisionId; profile: Profile; choices: GameSta
       >
         <Text style={s.baglanti}>Tutor'a sor</Text>
       </Pressable>
-      {tutorAcik && <Text style={s.ipucu}>{d.tutorOpening}</Text>}
+      {tutorAcik && <TutorKutusu id={id} profile={profile} />}
     </>
   );
 }
@@ -167,7 +205,7 @@ export default function App() {
         <Text style={s.marka}>SE Primer · {TITLE}</Text>
         {screen.kind !== 'profil' && <Text style={s.marka}>{clock(elapsedMinutes(state))}</Text>}
       </View>
-      <ScrollView contentContainerStyle={s.icerik}>
+      <ScrollView contentContainerStyle={s.icerik} keyboardShouldPersistTaps="handled">
         {screen.kind === 'profil' && (
           <ProfilEkrani
             bitti={(p) => {
@@ -238,4 +276,8 @@ const s = StyleSheet.create({
   ikincilYazi: { color: '#14212b', fontSize: 16 },
   kapali: { opacity: 0.4 },
   baglanti: { color: '#0f4c75', fontWeight: '600', paddingVertical: 8 },
+  oyuncuMesaj: { fontSize: 14, lineHeight: 20, color: '#14212b', backgroundColor: '#fff', borderWidth: 1, borderColor: '#c5d0d9', padding: 12, borderRadius: 12, alignSelf: 'flex-end' },
+  tutorSatir: { flexDirection: 'row', gap: 8 },
+  tutorGirdi: { flex: 1, borderWidth: 1, borderColor: '#c5d0d9', borderRadius: 12, paddingHorizontal: 12, fontSize: 15, backgroundColor: '#fff' },
+  tutorGonder: { backgroundColor: '#0f4c75', borderRadius: 12, paddingHorizontal: 14, justifyContent: 'center' },
 });
