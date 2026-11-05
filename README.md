@@ -115,3 +115,11 @@ npm run test:e2e
 - 6698 sayılı Kişisel Verilerin Korunması Kanunu (2016), m.6 ve m.12.
 - OpenAI (2025). Introducing study mode.
 - Cypress. E2E testing, screenshots and videos. docs.cypress.io
+
+## Yapay zekâ kullanımı (v2)
+
+- **Claude Code, kod ve testler:** `train.py` (eval kapısı, ONNX dışa aktarma), `uyum/model.ts` ve Cypress parite ve model davranışı testleri Claude Code ile yazıldı. Parite testi, React StrictMode'da modelin aynı anda iki kez çağrılıp sonucun ezildiği bir hatayı yakaladı; çağrılar sıraya alınarak düzeltildi.
+- **Veri:** 40 gerçek oturumu ben oynayıp topladım. İlk 10 oturum okumadan, çok hızlı oynanmıştı; sonraki oturumları metni okuyarak oynadım.
+- **Eval kapısı:** Yalnız gerçek veriyle model 4 kez eşikte kaldı. Eşiği düşürmedim; yalnız gerçek satırlardaki AUC 0,28'i model kartına yazdırdım.
+- **Mobil:** APK'yı telefonda deneyince tutor'a yazı alanı olmadığını fark ettim; çevrimdışı tutor eklenip yeniden derlendi.
+- **Sınav tasarımı:** `SINAV_TASARIMI.md`'deki 5 soruyu ben yazdım; Claude Code seçenek bankasını ve cevap anahtarını düzenledi.
